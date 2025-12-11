@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Joke Generator</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #f7fff7, #e3f2ff);
+            color: #1f2933;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .app {
+            background: #ffffff;
+            padding: 2rem 2.5rem;
+            border-radius: 18px;
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.18);
+            max-width: 480px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.9rem;
+        }
+        .subtitle {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            color: #6b7280;
+        }
+        label {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        select {
+            margin-top: 0.25rem;
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            font-size: 0.95rem;
+        }
+        .controls {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        button {
+            cursor: pointer;
+            border-radius: 999px;
+            border: none;
+            padding: 0.6rem 1.1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #22c55e);
+            color: white;
+        }
+        .btn-secondary {
+            background: #eef2ff;
+            color: #1f2933;
+        }
+        .btn-outline {
+            background: white;
+            color: #1f2933;
+            border: 1px solid #d1d5db;
+        }
+        .btn-primary:hover { filter: brightness(1.05); }
+        .btn-secondary:hover,
+        .btn-outline:hover { background: #e5e7eb; }
+        .joke-card {
+            margin-top: 1.5rem;
+            padding: 1.25rem 1.35rem;
+            border-radius: 14px;
+            background: #f1f5f9;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .joke-text {
+            font-size: 1.02rem;
+            line-height: 1.6;
+        }
+        .badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.9rem;
+            background: #e0f2fe;
+            color: #0369a1;
+            border-radius: 999px;
+            padding: 0.15rem 0.65rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .stats {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #6b7280;
+            display: flex;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .toast {
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            color: #16a34a;
+            display: none;
+        }
+        .nav-back {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        .nav-back a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+        .nav-back a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <h1>Joke Generator</h1>
+    <p class="subtitle">Pick a category and let the bad puns begin.</p>
+
+    <div class="form-group">
+        <label for="category">Choose a category:</label>
+        <select id="category">
+            <option value="random">Random</option>
+            <option value="dad">Dad jokes</option>
+            <option value="programming">Programming</option>
+        </select>
+    </div>
+
+    <div class="controls">
+        <button class="btn-primary" id="newJokeBtn">Tell me a joke</button>
+        <button class="btn-secondary" id="likeBtn">😂 I liked it</button>
+        <button class="btn-outline" id="copyBtn">📋 Copy</button>
+    </div>
+
+    <div class="joke-card">
+        <div class="badge" id="badge">Random</div>
+        <p class="joke-text" id="jokeText">
+            Click "Tell me a joke" to get started!
+        </p>
+    </div>
+
+    <div class="stats">
+        <span id="seenCount">Jokes seen: 0</span>
+        <span id="likedCount">Jokes liked: 0</span>
+    </div>
+
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <div class="nav-back">
+        <a href="Bucketlist.html">&larr; Back to Scratch Page</a>
+    </div>
+</div>
+
+<script>
+    const jokes = {
+        dad: [
+            "Why don't eggs tell jokes? They'd crack each other up.",
+            "I used to hate facial hair… but then it grew on me.",
+            "Why don’t skeletons fight each other? They don’t have the guts.",
+            "What do you call cheese that isn't yours? Nacho cheese.",
+            "How does a penguin build its house? Igloos it together."
+        ],
+        programming: [
+            "Why do programmers prefer dark mode? Because light attracts bugs.",
+            "There are 10 kinds of people in this world: those who understand binary and those who don’t.",
+            "A SQL query walks into a bar, walks up to two tables and asks: “Can I join you?”",
+            "Debugging: Being the detective in a crime movie where you are also the murderer.",
+            "I would tell you a UDP joke, but you might not get it."
+        ],
+        random: [
+            "Why can’t you trust stairs? They’re always up to something.",
+            "I tried to catch fog yesterday. Mist.",
+            "What do you call a fish wearing a bow tie? Sofishticated.",
+            "Why did the scarecrow win an award? He was outstanding in his field.",
+            "I’m reading a book about anti-gravity. It’s impossible to put down."
+        ]
+    };
+
+    const categorySelect = document.getElementById("category");
+    const newJokeBtn = document.getElementById("newJokeBtn");
+    const likeBtn = document.getElementById("likeBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const jokeText = document.getElementById("jokeText");
+    const badge = document.getElementById("badge");
+    const seenCountSpan = document.getElementById("seenCount");
+    const likedCountSpan = document.getElementById("likedCount");
+    const toast = document.getElementById("toast");
+
+    let jokesSeen = 0;
+    let jokesLiked = 0;
+
+    function getRandomFromArray(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function getJoke() {
+        const selected = categorySelect.value;
+
+        let pool;
+        if (selected === "random") {
+            const all = [...jokes.dad, ...jokes.programming, ...jokes.random];
+            pool = all;
+        } else {
+            pool = jokes[selected];
+        }
+
+        const joke = getRandomFromArray(pool);
+        jokeText.textContent = joke;
+        badge.textContent = selected.charAt(0).toUpperCase() + selected.slice(1);
+
+        jokesSeen++;
+        seenCountSpan.textContent = "Jokes seen: " + jokesSeen;
+    }
+
+    function likeJoke() {
+        if (jokeText.textContent.startsWith("Click \"Tell me a joke\"")) return;
+        jokesLiked++;
+        likedCountSpan.textContent = "Jokes liked: " + jokesLiked;
+    }
+
+    function copyJoke() {
+        const text = jokeText.textContent;
+        if (!navigator.clipboard) {
+            const temp = document.createElement("textarea");
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand("copy");
+            document.body.removeChild(temp);
+        } else {
+            navigator.clipboard.writeText(text);
+        }
+        toast.style.display = "block";
+        setTimeout(() => {
+            toast.style.display = "none";
+        }, 1600);
+    }
+
+    newJokeBtn.addEventListener("click", getJoke);
+    likeBtn.addEventListener("click", likeJoke);
+    copyBtn.addEventListener("click", copyJoke);
+</script>
+</body>
+</html>
