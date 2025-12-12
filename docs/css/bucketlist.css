@@ -1,0 +1,117 @@
+/* Custom styles for Bucket List page
+   This file is created from scratch for the assignment. */
+
+/* 1. Body styling (background + font) ✅ */
+.bucket-body {
+    background-color: #f4fbff;           /* Light custom background color */
+    font-family: 'Open Sans', sans-serif;
+    color: #222222;
+}
+
+
+.bucket-masthead {
+    background-image: url("../Images/Rockland.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 300px;      /* Add this */
+    display: flex;          /* Helps center content */
+    align-items: center;
+}
+
+.bucket-masthead .page-heading h1,
+.bucket-masthead .page-heading .subheading {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+
+.bucket-section {
+    background-color: #ffffff;
+    padding: 2rem 1.5rem;
+    margin-bottom: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+
+.section-title {
+    font-family: 'Lora', serif;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #1f4f7f;
+}
+
+
+.subsection-title {
+    font-family: 'Lora', serif;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #234567;
+}
+
+
+.anchor-links a {
+    color: #1f4f7f;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 0.75rem;
+}
+
+.anchor-links a:hover {
+    text-decoration: underline;
+}
+
+
+.bucket-image {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.bucket-image img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.back-to-top {
+    color: #1f4f7f;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.back-to-top:hover {
+    text-decoration: underline;
+}
+
+
+.video-wrapper {
+    padding: 1.5rem;
+    background-color: #f0f6ff;
+    border-radius: 10px;
+}
+
+
+.bucket-section ol,
+.bucket-section ul {
+    margin-left: 1.25rem;
+    line-height: 1.6;
+}
+
+.bucket-section li {
+    margin-bottom: 0.35rem;
+}
+
+#navbarResponsive .navbar-nav {
+    flex-direction: column !important;
+    align-items: flex-start;   /* left-align text */
+}
+
+
+#navbarResponsive .nav-link {
+    padding: 10px 0 !important;
+}
+
+
+.navbar-nav {
+    width: 200px;
+}
